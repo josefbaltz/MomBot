@@ -40,3 +40,11 @@ hs_err_pid*
 \.gradle/buildOutputCleanup/outputFiles\.bin
 
 gradle/wrapper/gradle-wrapper\.properties
+
+\.gradle/4\.4/fileContent/annotation-processors\.bin
+
+\.gradle/4\.4/fileContent/fileContent\.lock
+
+\.gradle/4\.4/fileHashes/resourceHashesCache\.bin
+
+build/tmp/jar/MANIFEST\.MF

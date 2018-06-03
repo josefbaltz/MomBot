@@ -15,6 +15,7 @@ public class mombot {
                 .withToken(args[0])
                 .build();
         bot.getDispatcher().registerListener(new responder());
+        bot.getDispatcher().registerListener(new serverCount());
         bot.login();
     }
 }
