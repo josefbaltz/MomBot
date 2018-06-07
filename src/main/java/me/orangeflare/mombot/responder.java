@@ -9,7 +9,7 @@ public class responder {
     @EventSubscriber
     public void onMessageReceived(MessageReceivedEvent event) {
         String formattedMsg = event.getMessage().getContent().toLowerCase();
-        if (formattedMsg.contains("?v=") || formattedMsg.contains("aichmomancy") || formattedMsg.contains("anemometer")
+        if (formattedMsg.contains("https://") || formattedMsg.contains("http://") || formattedMsg.contains("aichmomancy") || formattedMsg.contains("anemometer")
         || formattedMsg.contains("anemometric") || formattedMsg.contains("anemometrograph") || formattedMsg.contains("anemometry")
                 || formattedMsg.contains("arithmoman") || formattedMsg.contains("arithmometer") || formattedMsg.contains("armomancy")
                 || formattedMsg.contains("astigmometer") || formattedMsg.contains("atmometer") || formattedMsg.contains("bromomenorrh")
