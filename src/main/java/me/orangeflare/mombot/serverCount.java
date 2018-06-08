@@ -20,7 +20,7 @@ public class serverCount {
         switch(command) {
             case "count":
                 serverCount(event);
-                System.out.println("[INFO] 'ping' Command Received!");
+                System.out.println("[INFO] 'count' Command Received!");
                 System.out.println("       Command sent by " + event.getAuthor().getDisplayName(event.getGuild()));
         }
     }
