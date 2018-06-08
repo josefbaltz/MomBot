@@ -2,7 +2,10 @@ package me.orangeflare.mombot;
 
 import sx.blah.discord.api.events.EventSubscriber;
 import sx.blah.discord.handle.impl.events.guild.channel.message.MessageReceivedEvent;
+import sx.blah.discord.handle.impl.obj.PrivateChannel;
+import sx.blah.discord.handle.obj.IUser;
 import sx.blah.discord.util.DiscordException;
+import sx.blah.discord.util.MessageBuilder;
 import sx.blah.discord.util.RequestBuffer;
 
 public class responder {
@@ -45,6 +48,12 @@ public class responder {
                     } catch (DiscordException error) {
                         System.err.println("[ERROR] Could Not Send 'Ask your Father'");
                         error.printStackTrace();
+                    } catch (sx.blah.discord.util.MissingPermissionsException e) {
+                        System.err.println("[WARNING] Bot Doesn't Have Send Messages Permission in " + event.getGuild().getName());
+                        IUser guildOwner = event.getGuild().getOwner();
+                        PrivateChannel channelDM = (PrivateChannel) guildOwner.getClient().getOrCreatePMChannel(guildOwner);
+                        new MessageBuilder(null).withChannel(channelDM).withContent("Hi, I noticed that I don't have SEND_MESSAGES permission in "
+                                + event.getGuild().getName() + ", you may want to give me that permission so I can work properly").build();
                     }
                 });
             }
@@ -62,6 +71,12 @@ public class responder {
                     } catch (DiscordException error) {
                         System.err.println("[ERROR] Could Not Send 'Not now Sweetie'");
                         error.printStackTrace();
+                    } catch (sx.blah.discord.util.MissingPermissionsException e) {
+                        System.err.println("[WARNING] Bot Doesn't Have Send Messages Permission in " + event.getGuild().getName());
+                        IUser guildOwner = event.getGuild().getOwner();
+                        PrivateChannel channelDM = (PrivateChannel) guildOwner.getClient().getOrCreatePMChannel(guildOwner);
+                        new MessageBuilder(null).withChannel(channelDM).withContent("Hi, I noticed that I don't have SEND_MESSAGES permission in "
+                                + event.getGuild().getName() + ", you may want to give me that permission so I can work properly").build();
                     }
                 });
             }
