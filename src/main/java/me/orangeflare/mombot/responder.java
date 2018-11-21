@@ -35,6 +35,9 @@ public class responder {
             if (event.getAuthor().getLongID() == 176108182056206336L) {
                 System.out.println("[INFO] Not sending 'Ask your Father'");
                 System.out.println("    Reason: " + event.getAuthor().getDisplayName(event.getGuild()) + " Sent Message");
+            } else if (event.getAuthor().getLongID() == 263921857172996096) {
+                System.out.println("[INFO] Not sending 'Ask your Father'");
+                System.out.println("    Reason: " + event.getAuthor().getDisplayName(event.getGuild()) + " Sent Message");
             } else if (event.getMessage().getAuthor().isBot()){
                 //do nothing
             } else {
@@ -51,6 +54,9 @@ public class responder {
         } else if (formattedMsg.contains("mom") || formattedMsg.contains("mum")) {
             if (event.getAuthor().getLongID() == 176108182056206336L) {
                 System.out.println("[INFO] Not sending 'Not now Sweetie'");
+                System.out.println("    Reason: " + event.getAuthor().getDisplayName(event.getGuild()) + " Sent Message");
+            } else if (event.getAUthor().getLongID() ==  263921857172996096) {
+                System.out.println("[INFO] Not sending 'Ask your Father'");
                 System.out.println("    Reason: " + event.getAuthor().getDisplayName(event.getGuild()) + " Sent Message");
             } else if (event.getMessage().getAuthor().isBot()){
                 //do nothing
