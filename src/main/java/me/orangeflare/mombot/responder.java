@@ -40,8 +40,8 @@ public class responder implements MessageCreateListener {
         } else if (formattedContent.contains("?")) {
             if (event.getMessageAuthor().getId() == Long.parseLong(config.read("ownerID"))) {
                 System.out.println("Ignoring Owner ...");
-            } else if (event.getMessageAuthor().asUser().map(User::isBot).get()) {
-                System.out.println("Ignoring Bot ...");
+            } else if (event.getMessageAuthor().asUser().map(User::isBot).orElse(true)) {
+                System.out.println("Ignoring Bot or Webhook ...");
             } else {
                 commandIssued(event, "?");
                 event.getChannel().sendMessage("Ask your father");
