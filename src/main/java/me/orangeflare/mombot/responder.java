@@ -1,75 +1,85 @@
 package me.orangeflare.mombot;
 
-import sx.blah.discord.api.events.EventSubscriber;
-import sx.blah.discord.handle.impl.events.guild.channel.message.MessageReceivedEvent;
-import sx.blah.discord.util.DiscordException;
-import sx.blah.discord.util.RequestBuffer;
+import org.javacord.api.entity.user.User;
+import org.javacord.api.event.message.MessageCreateEvent;
+import org.javacord.api.listener.message.MessageCreateListener;
 
-public class responder {
-    @EventSubscriber
-    public void onMessageReceived(MessageReceivedEvent event) {
-        String formattedMsg = event.getMessage().getContent().toLowerCase();
-        if (formattedMsg.contains("aichmomancy") || formattedMsg.contains("anemometer")
-        || formattedMsg.contains("anemometric") || formattedMsg.contains("anemometrograph") || formattedMsg.contains("anemometry")
-                || formattedMsg.contains("arithmoman") || formattedMsg.contains("arithmometer") || formattedMsg.contains("armomancy")
-                || formattedMsg.contains("astigmometer") || formattedMsg.contains("atmometer") || formattedMsg.contains("bromomenorrh")
-                || formattedMsg.contains("bromomet") || formattedMsg.contains("camomile") || formattedMsg.contains("cardamom")
-                || formattedMsg.contains("causimomancy") || formattedMsg.contains("chamomile") || formattedMsg.contains("chemometr")
-                || formattedMsg.contains("chresmomancy") || formattedMsg.contains("chromom") || formattedMsg.contains("thermomet")
-                || formattedMsg.contains("desmoma") || formattedMsg.contains("dromomerycid") || formattedMsg.contains("dynamomet")
-                || formattedMsg.contains("electrohaemometer") || formattedMsg.contains("electrohemometer") || formattedMsg.contains("entomomancy")
-                || formattedMsg.contains("gamomania") || formattedMsg.contains("grammomancy") || formattedMsg.contains("haemochromometer")
-                || formattedMsg.contains("haemodromometer") || formattedMsg.contains("haemomanometer") || formattedMsg.contains("haemometer")
-                || formattedMsg.contains("hemochromometer") || formattedMsg.contains("hemodromometer") || formattedMsg.contains("hemomanometer")
-                || formattedMsg.contains("hemometer") || formattedMsg.contains("homomer") || formattedMsg.contains("homomor")
-                || formattedMsg.contains("kinemometer") || formattedMsg.contains("microseismomet") || formattedMsg.contains("moment")
-                || formattedMsg.contains("myrmomancy") || formattedMsg.contains("onomomancy") || formattedMsg.contains("ophthalmom")
-                || formattedMsg.contains("paromomycin") || formattedMsg.contains("plasmoma") || formattedMsg.contains("pneumomediastinum")
-                || formattedMsg.contains("pneumomycoasis") || formattedMsg.contains("racemomethylate") || formattedMsg.contains("rhythmometer")
-                || formattedMsg.contains("seismomet") || formattedMsg.contains("sphygmom") || formattedMsg.contains("squamomastoid")
-                || formattedMsg.contains("stalagmom") || formattedMsg.contains("strabismometer") || formattedMsg.contains("thermomechani")
-                || formattedMsg.contains("thermomot") || formattedMsg.contains("thumomancy") || formattedMsg.contains("tromometer")
-                || formattedMsg.contains("volumometr") || formattedMsg.contains("zymometer")) {
-            //do nothing
-        } else if (formattedMsg.contains("?")) {
-            if (event.getAuthor().getLongID() == 176108182056206336L) {
-                System.out.println("[INFO] Not sending 'Ask your Father'");
-                System.out.println("    Reason: " + event.getAuthor().getDisplayName(event.getGuild()) + " Sent Message");
-            } else if (event.getAuthor().getLongID() == 263921857172996096) {
-                System.out.println("[INFO] Not sending 'Ask your Father'");
-                System.out.println("    Reason: " + event.getAuthor().getDisplayName(event.getGuild()) + " Sent Message");
-            } else if (event.getMessage().getAuthor().isBot()){
-                //do nothing
+import java.io.*;
+import java.util.Properties;
+
+import static me.orangeflare.mombot.Main.commandIssued;
+
+public class responder implements MessageCreateListener {
+    configManager config = new configManager();
+    @Override
+    public void onMessageCreate(MessageCreateEvent event) {
+        String formattedContent = event.getMessage().getContent().toLowerCase();
+        if (formattedContent.contains("aichmomancy") || formattedContent.contains("anemometer")
+                || formattedContent.contains("anemometric") || formattedContent.contains("anemometrograph") || formattedContent.contains("anemometry")
+                || formattedContent.contains("arithmoman") || formattedContent.contains("arithmometer") || formattedContent.contains("armomancy")
+                || formattedContent.contains("astigmometer") || formattedContent.contains("atmometer") || formattedContent.contains("bromomenorrh")
+                || formattedContent.contains("bromomet") || formattedContent.contains("camomile") || formattedContent.contains("cardamom")
+                || formattedContent.contains("causimomancy") || formattedContent.contains("chamomile") || formattedContent.contains("chemometr")
+                || formattedContent.contains("chresmomancy") || formattedContent.contains("chromom") || formattedContent.contains("thermomet")
+                || formattedContent.contains("desmoma") || formattedContent.contains("dromomerycid") || formattedContent.contains("dynamomet")
+                || formattedContent.contains("electrohaemometer") || formattedContent.contains("electrohemometer") || formattedContent.contains("entomomancy")
+                || formattedContent.contains("gamomania") || formattedContent.contains("grammomancy") || formattedContent.contains("haemochromometer")
+                || formattedContent.contains("haemodromometer") || formattedContent.contains("haemomanometer") || formattedContent.contains("haemometer")
+                || formattedContent.contains("hemochromometer") || formattedContent.contains("hemodromometer") || formattedContent.contains("hemomanometer")
+                || formattedContent.contains("hemometer") || formattedContent.contains("homomer") || formattedContent.contains("homomor")
+                || formattedContent.contains("kinemometer") || formattedContent.contains("microseismomet") || formattedContent.contains("moment")
+                || formattedContent.contains("myrmomancy") || formattedContent.contains("onomomancy") || formattedContent.contains("ophthalmom")
+                || formattedContent.contains("paromomycin") || formattedContent.contains("plasmoma") || formattedContent.contains("pneumomediastinum")
+                || formattedContent.contains("pneumomycoasis") || formattedContent.contains("racemomethylate") || formattedContent.contains("rhythmometer")
+                || formattedContent.contains("seismomet") || formattedContent.contains("sphygmom") || formattedContent.contains("squamomastoid")
+                || formattedContent.contains("stalagmom") || formattedContent.contains("strabismometer") || formattedContent.contains("thermomechani")
+                || formattedContent.contains("thermomot") || formattedContent.contains("thumomancy") || formattedContent.contains("tromometer")
+                || formattedContent.contains("volumometr") || formattedContent.contains("zymometer") || formattedContent.contains("http://")
+                || formattedContent.contains("https://")) {
+            //Do Nothing
+        } else if (formattedContent.contains("?")) {
+            if (event.getMessageAuthor().getId() == Long.parseLong(config.read("ownerID"))) {
+                System.out.println("Ignoring Owner ...");
+            } else if (event.getMessageAuthor().asUser().map(User::isBot).get()) {
+                System.out.println("Ignoring Bot ...");
             } else {
-                RequestBuffer.request(() -> {
-                    try {
-                        System.out.println("[INFO] Sending 'Ask your Father' at " + event.getAuthor().getDisplayName(event.getGuild()));
-                        event.getChannel().sendMessage("Ask your father");
-                    } catch (DiscordException error) {
-                        System.err.println("[ERROR] Could Not Send 'Ask your Father'");
-                        error.printStackTrace();
-                    }
-                });
+                commandIssued(event, "?");
+                event.getChannel().sendMessage("Ask your father");
+                try {
+                    FileInputStream in = new FileInputStream("./responseCounter.txt");
+                    Properties counter = new Properties();
+                    counter.load(in);
+                    in.close();
+
+                    FileOutputStream out = new FileOutputStream("./responseCounter.txt");
+                    counter.setProperty("counter", Integer.toString(Integer.parseInt(counter.getProperty("counter"))+1));
+                    counter.store(out, null);
+                    out.close();
+                } catch (IOException e0) {
+                    System.out.println("IOException: " + e0);
+                }
             }
-        } else if (formattedMsg.contains("mom") || formattedMsg.contains("mum")) {
-            if (event.getAuthor().getLongID() == 176108182056206336L) {
-                System.out.println("[INFO] Not sending 'Not now Sweetie'");
-                System.out.println("    Reason: " + event.getAuthor().getDisplayName(event.getGuild()) + " Sent Message");
-            } else if (event.getAUthor().getLongID() ==  263921857172996096) {
-                System.out.println("[INFO] Not sending 'Ask your Father'");
-                System.out.println("    Reason: " + event.getAuthor().getDisplayName(event.getGuild()) + " Sent Message");
-            } else if (event.getMessage().getAuthor().isBot()){
-                //do nothing
+        } else if (formattedContent.contains("mom") || formattedContent.contains("mum") || formattedContent.contains("mother")) {
+            if (event.getMessageAuthor().getId() == Long.parseLong(config.read("ownerID"))) {
+                System.out.println("Ignoring Owner ...");
+            } else if (event.getMessageAuthor().asUser().map(User::isBot).get()) {
+                System.out.println("Ignoring Bot ...");
             } else {
-                RequestBuffer.request(() -> {
-                    try {
-                        System.out.println("[INFO] Sending 'Not now Sweetie' at " + event.getAuthor().getDisplayName(event.getGuild()));
-                        event.getChannel().sendMessage("Not now sweetie");
-                    } catch (DiscordException error) {
-                        System.err.println("[ERROR] Could Not Send 'Not now Sweetie'");
-                        error.printStackTrace();
-                    }
-                });
+                commandIssued(event, "mom");
+                event.getChannel().sendMessage("Not now sweetie");
+                try {
+                    FileInputStream in = new FileInputStream("./responseCounter.txt");
+                    Properties counter = new Properties();
+                    counter.load(in);
+                    in.close();
+
+                    FileOutputStream out = new FileOutputStream("./responseCounter.txt");
+                    counter.setProperty("counter", Integer.toString(Integer.parseInt(counter.getProperty("counter"))+1));
+                    counter.store(out, null);
+                    out.close();
+                } catch (IOException e0) {
+                    System.out.println("IOException: " + e0);
+                }
             }
         }
     }
